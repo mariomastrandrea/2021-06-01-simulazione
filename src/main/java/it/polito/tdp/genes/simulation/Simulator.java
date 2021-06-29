@@ -18,7 +18,9 @@ public class Simulator implements SimulationResult
 	
 	//input
 	private Graph<Genes, DefaultWeightedEdge> graph;
+	@SuppressWarnings("unused")
 	private int numEngineers;
+	@SuppressWarnings("unused")
 	private Genes startGene;
 	
 	//events queue
@@ -46,6 +48,7 @@ public class Simulator implements SimulationResult
 		{
 			Engineer newEngineer = new Engineer(i);
 			GeneStudyEvent event = new GeneStudyEvent(1, newEngineer, startGene);
+			this.eventsQueue.add(event);
 		}
 		
 		this.genesStudiedByEngineers = new HashMap<>();
@@ -131,8 +134,16 @@ public class Simulator implements SimulationResult
 
 	private void computeNumEngineersStudyingGenes()
 	{
-		// TODO Auto-generated method stub
-		
+		for(var pair : this.genesStudiedByEngineers.entrySet())
+		{
+			Genes gene = pair.getValue();
+			
+			if(!this.numEngineersStudyingGenes.containsKey(gene))
+				this.numEngineersStudyingGenes.put(gene, 0);
+			
+			int oldNum = this.numEngineersStudyingGenes.get(gene);
+			this.numEngineersStudyingGenes.put(gene, oldNum+1);
+		}
 	}
 
 	@Override
