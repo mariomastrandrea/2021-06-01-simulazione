@@ -1,8 +1,12 @@
 package it.polito.tdp.genes;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.genes.model.Genes;
 import it.polito.tdp.genes.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +27,7 @@ public class FXMLController
     private Button btnCreaGrafo;
 
     @FXML
-    private ComboBox<?> cmbGeni;
+    private ComboBox<Genes> cmbGeni;
 
     @FXML
     private Button btnGeniAdiacenti;
@@ -43,19 +47,94 @@ public class FXMLController
     @FXML
     void doCreaGrafo(ActionEvent event) 
     {
-
+    	this.model.createGraph();
+    	
+    	//print
+    	int numVertices = this.model.getNumVertices();
+    	int numEdges = this.model.getNumEdges();
+    	
+    	String output = this.printGraphInfo(numVertices, numEdges);
+    	this.txtResult.setText(output);
+    	
+    	//update UI
+    	List<Genes> genes = this.model.getGenes();
+    	this.cmbGeni.getItems().clear();
+    	this.cmbGeni.getItems().addAll(genes);
     }
 
-    @FXML
+    private String printGraphInfo(int numVertices, int numEdges)
+	{
+		return String.format("Grafo creato\n#Vertici: %d\n#Archi: %d", numVertices, numEdges);
+	}
+
+	@FXML
     void doGeniAdiacenti(ActionEvent event) 
     {
-
+		if(!this.model.isGraphCreated())
+		{
+			this.txtResult.setText("Errore: creare prima il grafo!");
+			return;
+		}
+		
+		Genes selectedGene = this.cmbGeni.getValue();
+		
+		if(selectedGene == null)
+		{
+			this.txtResult.setText("Errore: selezionare un gene dal menù a tendina");
+			return;
+		}
+		
+		Map<Genes, Double> adjacentGenesWeights = 
+						this.model.getGenesWeightsAdjacentTo(selectedGene);
+		
+		List<Genes> orderedAdjacentGenes = new ArrayList<>(adjacentGenesWeights.keySet());
+		
+		orderedAdjacentGenes.sort((g1, g2) -> 
+			Double.compare(adjacentGenesWeights.get(g2), adjacentGenesWeights.get(g1)));
+		
+		String output = this.printGenesWeight(selectedGene, 
+							orderedAdjacentGenes, adjacentGenesWeights);
+		
+		this.txtResult.setText(output);
     }
 
-    @FXML
+    private String printGenesWeight(Genes selectedGene, 
+    		List<Genes> orderedAdjacentGenes, Map<Genes, Double> adjacentGenesWeights)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Geni adiacenti a ").append(selectedGene.toString()).append(":\n");
+		
+		if(orderedAdjacentGenes.isEmpty())
+		{
+			sb.append("(nessuno)");
+			return sb.toString();
+		}
+		
+		for(Genes g : orderedAdjacentGenes)
+		{
+			sb.append("\n - ").append(g.toString()).append(" --> ").append(adjacentGenesWeights.get(g));
+		}
+		
+		return sb.toString();
+	}
+
+	@FXML
     void doSimula(ActionEvent event) 
     {
-
+		if(!this.model.isGraphCreated())
+		{
+			this.txtResult.setText("Errore: creare prima il grafo!");
+			return;
+		}
+		
+		Genes selectedGene = this.cmbGeni.getValue();
+		
+		if(selectedGene == null)
+		{
+			this.txtResult.setText("Errore: selezionare un gene dal menù a tendina");
+			return;
+		}
     }
 
     @FXML
