@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class DBConnect {
-	
-	private static final String jdbcURL = "jdbc:mysql://localhost/genes_small";
+public class DBConnect 
+{	
+	private static final String jdbcURL = "jdbc:mariadb://localhost/genes_small";
 	private static HikariDataSource ds;
 	
 	public static Connection getConnection() {
@@ -36,5 +36,4 @@ public class DBConnect {
 			throw new RuntimeException(e);
 		}
 	}
-
 }

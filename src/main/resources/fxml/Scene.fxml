@@ -13,19 +13,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="525.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.genes.FXMLController">
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.genes.FXMLController">
    <top>
       <Label text="Simulazione d'esame 01/06/2021 Genes" BorderPane.alignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
          <BorderPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </BorderPane.margin>
       </Label>
    </top>
    <center>
-      <VBox prefHeight="437.0" prefWidth="512.0" BorderPane.alignment="CENTER">
+      <VBox BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnCreaGrafo" mnemonicParsing="false" onAction="#doCreaGrafo" prefHeight="25.0" prefWidth="429.0" text="Crea Grafo">
                <VBox.margin>
@@ -44,7 +44,7 @@
                 <RowConstraints maxHeight="33.6" minHeight="10.0" prefHeight="33.6" vgrow="SOMETIMES" />
               </rowConstraints>
                <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                  <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                </VBox.margin>
                <children>
                   <Label text="Gene (g):">
@@ -75,9 +75,9 @@
                   </Button>
                </children>
             </GridPane>
-            <TextArea fx:id="txtResult" prefHeight="332.0" prefWidth="472.0">
+            <TextArea fx:id="txtResult" prefHeight="330.0">
                <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="20.0" />
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </VBox.margin>
             </TextArea>
          </children>
