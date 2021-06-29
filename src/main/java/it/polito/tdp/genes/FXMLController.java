@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import it.polito.tdp.genes.model.Genes;
 import it.polito.tdp.genes.model.Model;
+import it.polito.tdp.genes.simulation.SimulationResult;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -135,9 +136,49 @@ public class FXMLController
 			this.txtResult.setText("Errore: selezionare un gene dal menù a tendina");
 			return;
 		}
+		
+		String numEngineersInput = this.txtIng.getText();
+		
+		if(numEngineersInput == null || numEngineersInput.isBlank())
+		{
+			this.txtResult.setText("Errore: inserire un numero di Ingegneri (n) nell'apposita casella di testo");
+			return;
+		}
+		
+		numEngineersInput = numEngineersInput.trim();
+		
+		int numEngineers;
+		try
+		{
+			numEngineers = Integer.parseInt(numEngineersInput);
+		}
+		catch(NumberFormatException nfe)
+		{
+			this.txtResult.setText("Errore: inserire un numero intero valido di Ingegneri");
+			return;
+		}
+		
+		if(numEngineers < 1)
+		{
+			this.txtResult.setText("Errore: inserire un numero intero di Ingegneri almeno pari a 1");
+			return;
+		}
+		
+		SimulationResult result = this.model.runSimulationWith(numEngineers, selectedGene);
+		
+		Map<Genes, Integer> numEngineersStudyingGenes = result.getNumEngineersStudyingGenes();
+		
+		String output = this.printEngineersStudyingGenes(numEngineersStudyingGenes);
+		this.txtResult.setText(output);
     }
 
-    @FXML
+    private String printEngineersStudyingGenes(Map<Genes, Integer> numEngineersStudyingGenes)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@FXML
     void initialize() 
     {
         assert btnCreaGrafo != null : "fx:id=\"btnCreaGrafo\" was not injected: check your FXML file 'Scene.fxml'.";

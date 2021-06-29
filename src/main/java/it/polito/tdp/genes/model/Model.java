@@ -12,6 +12,8 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import it.polito.tdp.genes.db.GenesDao;
+import it.polito.tdp.genes.simulation.SimulationResult;
+import it.polito.tdp.genes.simulation.Simulator;
 
 public class Model 
 {
@@ -19,11 +21,14 @@ public class Model
 	private Graph<Genes, DefaultWeightedEdge> graph;
 	private final Map<String, Genes> genesIdMap;
 	
+	private final Simulator simulator;
+	
 	
 	public Model()
 	{
 		this.dao = new GenesDao();
 		this.genesIdMap = new HashMap<>();
+		this.simulator = new Simulator();
 	}
 	
 	public void createGraph()
@@ -87,6 +92,14 @@ public class Model
 		}
 		
 		return adjacentGenesWeights;
+	}
+
+	public SimulationResult runSimulationWith(int numEngineers, Genes selectedGene)
+	{
+		this.simulator.initialize(numEngineers, selectedGene, this.graph);
+		SimulationResult result = this.simulator.run();
+		
+		return result;
 	}
 	
 }
