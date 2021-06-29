@@ -174,8 +174,19 @@ public class FXMLController
 
     private String printEngineersStudyingGenes(Map<Genes, Integer> numEngineersStudyingGenes)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		sb.append("Geni in corso di studio dagli ingengneri:\n");
+		
+		for(var pair : numEngineersStudyingGenes.entrySet())
+		{
+			Genes gene = pair.getKey();
+			int num = pair.getValue();
+			
+			sb.append("\n - ").append(gene.toString()).append("  ->  #").append(num);
+					
+		}
+		
+		return sb.toString();
 	}
 
 	@FXML

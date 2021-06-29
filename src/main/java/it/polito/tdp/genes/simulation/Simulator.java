@@ -35,7 +35,7 @@ public class Simulator implements SimulationResult
 	
 	public void initialize(int numEngineers, Genes startGene, Graph<Genes, DefaultWeightedEdge> graph)
 	{
-		if(numEngineers < 1 || graph == null || !this.graph.containsVertex(startGene))
+		if(numEngineers < 1 || graph == null || !graph.containsVertex(startGene))
 			throw new IllegalArgumentException();
 		
 		this.graph = graph;
