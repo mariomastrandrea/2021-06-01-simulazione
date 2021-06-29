@@ -168,14 +168,16 @@ public class FXMLController
 		
 		Map<Genes, Integer> numEngineersStudyingGenes = result.getNumEngineersStudyingGenes();
 		
-		String output = this.printEngineersStudyingGenes(numEngineersStudyingGenes);
+		String output = this.printEngineersStudyingGenes(numEngineers, selectedGene, 
+															numEngineersStudyingGenes);
 		this.txtResult.setText(output);
     }
 
-    private String printEngineersStudyingGenes(Map<Genes, Integer> numEngineersStudyingGenes)
+    private String printEngineersStudyingGenes(int numEngineers, Genes selectedGene, 
+    		Map<Genes, Integer> numEngineersStudyingGenes)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append("Geni in corso di studio dagli ingengneri:\n");
+		sb.append("Geni in corso di studio dagli ingengneri (#").append(numEngineers).append("):\n");
 		
 		for(var pair : numEngineersStudyingGenes.entrySet())
 		{
@@ -183,8 +185,9 @@ public class FXMLController
 			int num = pair.getValue();
 			
 			sb.append("\n - ").append(gene.toString()).append("  ->  #").append(num);
-					
 		}
+		
+		sb.append("\nGene di partenza: ").append(selectedGene.toString());
 		
 		return sb.toString();
 	}
